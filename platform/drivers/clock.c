@@ -1,4 +1,6 @@
-/*      厦门大学海韵机器人队
+/***************************************************************************
+ *
+ *                          厦门大学海韵机器人队
  *
  * @2017 all rights reserved
  *
@@ -6,10 +8,11 @@
  *
  * @author zwh <zwh@raaworks.com>
  *         hc <450801089.qq.com>
- */
+ *
+ ***************************************************************************/
 
 #include "clock.h"
-#include "main.h"
+#include "scheduler.h"
 #include "stm32f4xx_hal.h"
 
 void clock_config()

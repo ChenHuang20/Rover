@@ -4,7 +4,7 @@
  *
  * @2017 all rights reserved
  *
- * @file uart1.h
+ * @file commander.h
  *
  * @author zwh <zwh@raaworks.com>
  *         hc <450801089.qq.com>
@@ -19,8 +19,7 @@
 extern "C" {
 #endif
 
-extern void uart1_config(void);
-extern int uart1_read(uint8_t *buf, int len);
+extern void commander_task(void);
 
 #ifdef __cplusplus
 }

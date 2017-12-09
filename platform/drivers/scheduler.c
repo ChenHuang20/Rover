@@ -1,4 +1,6 @@
-/*      厦门大学海韵机器人队
+/***************************************************************************
+ *
+ *                          厦门大学海韵机器人队
  *
  * @2017 all rights reserved
  *
@@ -6,34 +8,39 @@
  *
  * @author zwh <zwh@raaworks.com>
  *         hc <450801089.qq.com>
- */
+ *
+ ***************************************************************************/
 
 #include "scheduler.h"
-#include "main.h"
 
 #include "sbus.h"
 #include "esc820r.h"
+#include "esc6623.h"
 #include "topics.h"
+#include "uart6.h"
 
-volatile uint64_t t;
+#include "icm20600.h"
+#include "estimator.h"
+#include "commander.h"
+#include "control.h"
 
-void TimerCallback()
+void timer_callback()
 {
+    icm20600_task();
+    estimator_task();
+
     sbus();
+//    esc820r_read();
 
-    esc820r_read();
+    commander_task();
 
-    //
-    for (int i = 0; i < 4; i++) {
-        _wheel_velocity_setpoint.wheel[i] = 0.0f;
-    }
+    control_task();
 
-    esc820r_write();
+//    esc820r_write();
 }
 
 void scheduler()
 {
     while (1) {
-        t = time();
     }
 }

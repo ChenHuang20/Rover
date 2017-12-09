@@ -1,4 +1,6 @@
-/*      厦门大学海韵机器人队
+/***************************************************************************
+ *
+ *                          厦门大学海韵机器人队
  *
  * @2017 all rights reserved
  *
@@ -7,17 +9,22 @@
  * @author zwh <zwh@raaworks.com>
  *         hc <450801089.qq.com>
  *
- */
+ ***************************************************************************/
 
 #include "stm32f4xx_hal.h"
 #include "core_cm4.h"
 
-#include "main.h"
+#include "scheduler.h"
 
 #include "clock.h"
 #include "tim2.h"
 #include "can1.h"
+#include "can2.h"
 #include "uart1.h"
+#include "uart6.h"
+#include "spi4.h"
+#include "spi5.h"
+#include "i2c_soft.h"
 
 #include "scheduler.h"
 
@@ -60,12 +67,24 @@ int main()
     clock_config();
 
     // can1 -> wheel
-    can1_config();
+//    can1_config();
 
     // uart1 -> radio
     uart1_config();
 
-    // tim7 -> 1ms timer config
+    // uart6 -> radio
+    uart6_config();
+
+    // spi4
+//    spi4_config();
+
+    // spi5
+    spi5_config();
+
+    // software i2c
+    i2c_soft_config();
+
+    // tim2 -> 1ms timer config
     tim2_config();
 
     SysTick_Config(TickClock * TickPeriod);
@@ -93,6 +112,15 @@ int read(char *path, uint8_t *buf, int len)
             }
             break;
 
+        case 's':
+            // spi bus
+            ret = spi4_read(path[1], path[2], buf, len);
+            break;
+
+        case 'i':
+            // i2c bus
+            ret = i2c_soft_read(path[1], path[2], buf, len);
+
         default:
             break;
     }
@@ -114,6 +142,14 @@ int write(char *path, uint8_t *buf, int len)
             if (path[1] == 1) {
                 ret = can1_write(buf, len);
             }
+            break;
+
+        case 's':
+            ret = spi4_write(path[1], path[2], buf, len);
+            break;
+
+        case 'i':
+            ret = i2c_soft_write(path[1], path[2], buf, len);
             break;
 
         default:

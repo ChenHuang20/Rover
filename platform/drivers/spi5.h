@@ -4,7 +4,7 @@
  *
  * @2017 all rights reserved
  *
- * @file uart1.h
+ * @file spi5.h
  *
  * @author zwh <zwh@raaworks.com>
  *         hc <450801089.qq.com>
@@ -19,8 +19,10 @@
 extern "C" {
 #endif
 
-extern void uart1_config(void);
-extern int uart1_read(uint8_t *buf, int len);
+void spi5_config(void);
+
+int spi5_read(uint8_t address, uint8_t reg, uint8_t *buf, uint8_t len);
+int spi5_write(uint8_t address, uint8_t reg, uint8_t *buf, uint8_t len);
 
 #ifdef __cplusplus
 }

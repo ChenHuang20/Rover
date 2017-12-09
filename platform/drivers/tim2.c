@@ -1,4 +1,6 @@
-/*      厦门大学海韵机器人队
+/***************************************************************************
+ *
+ *                          厦门大学海韵机器人队
  *
  * @2017 all rights reserved
  *
@@ -6,10 +8,11 @@
  *
  * @author zwh <zwh@raaworks.com>
  *         hc <450801089.qq.com>
- */
+ *
+ ***************************************************************************/
 
 #include "tim2.h"
-#include "main.h"
+#include "scheduler.h"
 #include "stm32f4xx_hal.h"
 
 TIM_HandleTypeDef htim2;
@@ -21,7 +24,7 @@ void tim2_config()
     htim2.Instance = TIM2;
     htim2.Init.Prescaler = 180 - 1;
     htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-    htim2.Init.Period = 1000;
+    htim2.Init.Period = 500;
 
     if (HAL_TIM_Base_Init(&htim2) != HAL_OK) {
         _Error_Handler(__FILE__, __LINE__);
@@ -42,13 +45,11 @@ void tim2_config()
     HAL_TIM_Base_Start_IT(&htim2);
 }
 
-__weak void TimerCallback(void)
-{
-}
+__weak void timer_callback() {}
 
-void TIM2_IRQHandler(void)
+void TIM2_IRQHandler()
 {
     HAL_TIM_IRQHandler(&htim2);
 
-    TimerCallback();
+    timer_callback();
 }

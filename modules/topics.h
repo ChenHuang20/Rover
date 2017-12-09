@@ -1,4 +1,6 @@
-/*      厦门大学海韵机器人队
+/***************************************************************************
+ *
+ *                          厦门大学海韵机器人队
  *
  * @2017 all rights reserved
  *
@@ -6,7 +8,8 @@
  *
  * @author zwh <zwh@raaworks.com>
  *         hc <450801089.qq.com>
- */
+ *
+ ***************************************************************************/
 
 #pragma once
 
@@ -15,6 +18,33 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct {
+    float accel_offset[3];
+    float accel_scale[3];
+    float gyro_offset[3];
+    float gyro_scale[3];
+
+    float att_p[3];
+    float rate_p[3];
+    float rate_d[3];
+    float rate_i[3];
+    float rate_i_max[3];
+} params_t;
+
+typedef struct {
+    uint64_t timestamp;
+    float temperature;
+    int16_t x_raw, y_raw, z_raw;
+    float x, y, z;
+} accel_t;
+
+typedef struct {
+    uint64_t timestamp;
+    float temperature;
+    int16_t x_raw, y_raw, z_raw;
+    float x, y, z;
+} gyro_t;
 
 typedef struct {
     uint64_t timestamp;
@@ -45,8 +75,6 @@ typedef struct {
     float quality;
 } radio_raw_t;
 
-extern radio_raw_t _radio_raw;
-
 typedef struct {
     uint64_t timestamp;
     float x;
@@ -57,21 +85,31 @@ typedef struct {
     uint8_t shoot;
 } radio_t;
 
-extern radio_t _radio;
+typedef struct {
+    uint64_t timestamp;
+    float euler[3];
+    float rates[3];
+} attitude_t;
+
+typedef struct {
+    uint64_t timestamp;
+    float gimbal[3];
+    float wheel[4];
+} actuator_t;
 
 typedef struct {
     uint64_t timestamp;
     float wheel[4];
 } wheel_velocity_t;
 
+extern params_t _params;
+extern accel_t _accel;
+extern gyro_t _gyro;
+extern radio_t _radio;
+extern radio_raw_t _radio_raw;
+extern attitude_t _attitude;
 extern wheel_velocity_t _wheel_velocity;
-
-typedef struct {
-    uint64_t timestamp;
-    float wheel[4];
-} wheel_velocity_setpoint_t;
-
-extern wheel_velocity_setpoint_t _wheel_velocity_setpoint;
+extern actuator_t _actuator;
 
 #ifdef __cplusplus
 }

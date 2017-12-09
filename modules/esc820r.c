@@ -1,4 +1,6 @@
-/*      厦门大学海韵机器人队
+/***************************************************************************
+ *
+ *                          厦门大学海韵机器人队
  *
  * @2017 all rights reserved
  *
@@ -6,10 +8,11 @@
  *
  * @author zwh <zwh@raaworks.com>
  *         hc <450801089.qq.com>
- */
+ *
+ ***************************************************************************/
 
 #include "esc820r.h"
-#include "main.h"
+#include "scheduler.h"
 #include "topics.h"
 
 static char path[3] = { 'c', 1, 0 };
@@ -53,10 +56,10 @@ void esc820r_write()
     buf[3] = 0x200 & 0xff;
 
     float in[4] = {
-        _wheel_velocity_setpoint.wheel[0],
-        -_wheel_velocity_setpoint.wheel[1],
-        _wheel_velocity_setpoint.wheel[2],
-        -_wheel_velocity_setpoint.wheel[3]
+        _actuator.wheel[0],
+        -_actuator.wheel[1],
+        _actuator.wheel[2],
+        -_actuator.wheel[3]
     };
 
     for (int i = 0; i < 4; i++) {
