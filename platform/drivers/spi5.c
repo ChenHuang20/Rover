@@ -20,6 +20,7 @@ SPI_HandleTypeDef hspi5;
 typedef enum {
     IDLE = 0,
     ICM20600,
+    MS5611,
     HMC5983
 } device_e;
 
@@ -80,6 +81,13 @@ int spi5_read(uint8_t address, uint8_t reg, uint8_t *buf, uint8_t len)
 
     device = get_device(address);
 
+    // for most devices except MS5611, bit7 is R/W bit.
+    // when 0, the data is written into the device.
+    // when 1, the data from the device is read.
+    if (device != MS5611) {
+        reg |= 1 << 7;
+    }
+
     // for HMC5983, bit6 is M/S bit.
     // when 0, the register address will remain unchanged in multiple read/write commands.
     // when 1, the register address will be auto incremented in multiple read/write commands.
@@ -89,10 +97,6 @@ int spi5_read(uint8_t address, uint8_t reg, uint8_t *buf, uint8_t len)
 
     // lower CS
     cs(device, 0);
-
-    if (device == HMC5983 && len > 1) {
-        reg |= 0x40;
-    }
 
     readwritebyte(reg);
 
