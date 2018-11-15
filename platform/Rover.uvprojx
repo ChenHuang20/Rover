@@ -10,7 +10,7 @@
       <TargetName>STM32F427</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -421,19 +421,9 @@
               <FilePath>.\drivers\uart1.c</FilePath>
             </File>
             <File>
-              <FileName>can1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\drivers\can1.c</FilePath>
-            </File>
-            <File>
               <FileName>uart6.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\drivers\uart6.c</FilePath>
-            </File>
-            <File>
-              <FileName>can2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\drivers\can2.c</FilePath>
             </File>
             <File>
               <FileName>spi4.c</FileName>
@@ -450,6 +440,16 @@
               <FileType>1</FileType>
               <FilePath>.\drivers\i2c_soft.c</FilePath>
             </File>
+            <File>
+              <FileName>can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\can.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\flash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -464,6 +464,11 @@
               <FileName>sbus.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\modules\sbus.c</FilePath>
+            </File>
+            <File>
+              <FileName>escC620.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\modules\escC620.c</FilePath>
             </File>
             <File>
               <FileName>esc820r.c</FileName>

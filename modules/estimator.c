@@ -184,10 +184,6 @@ void estimator_task()
     // update attitude by quaternion
     update(dt, a, g);
 
-    // generate rotation matrix from quaternion
-
-    float sq[4] = { q[0] * q[0], q[1] * q[1], q[2] * q[2], q[3] * q[3] };
-
     // publish attitude
     _attitude.timestamp = t;
 

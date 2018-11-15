@@ -7,7 +7,7 @@
  * @file esc820r.c
  *
  * @author zwh <zwh@raaworks.com>
- *         hc <450801089.qq.com>
+ *         hc <450801089@qq.com>
  *
  ***************************************************************************/
 
@@ -28,19 +28,19 @@ void esc820r_read()
             (int16_t)buf[0] << 8 | buf[1],
             (int16_t)buf[2] << 8 | buf[3],
             (int16_t)buf[4] << 8 | buf[5],
-            (int16_t)buf[6] << 8 | buf[7]
+            (int16_t)buf[6] << 8 | buf[7],
         };
 
         float out[4] = {
-            in[0] / 7700.0f,
-            -in[1] / 7700.0f,
-            in[2] / 7700.0f,
-            -in[3] / 7700.0f
+             in[0]/7700.0f,
+            -in[1]/7700.0f,
+             in[2]/7700.0f,
+            -in[3]/7700.0f,
         };
 
         for (int i = 0; i < 4; i++) {
-            out[i] = out[i] < -1.0f ? -1.0f : out[i] > 1.0f ? 1.0f : out[i];
             _wheel_velocity.wheel[i] = out[i];
+            _wheel_velocity.wheel[i] = (_wheel_velocity.wheel[i] < 0.05f && _wheel_velocity.wheel[i] > -0.05f) ? 0 : _wheel_velocity.wheel[i];
         }
     }
 }
@@ -61,10 +61,9 @@ void esc820r_write()
         _actuator.wheel[2],
         -_actuator.wheel[3]
     };
-
+		
     for (int i = 0; i < 4; i++) {
-        in[i] = in[i] < -1.0f ? -1.0f : in[i] > 1.0f ? 1.0f : in[i];
-        out[i] = in[i] * 32767.0f;
+        out[i] = in[i]*200.0f;
     }
 
     buf[4] = out[0] >> 8;

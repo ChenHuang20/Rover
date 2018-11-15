@@ -19,8 +19,8 @@
 extern "C" {
 #endif
 
-extern void motor6623_read(void);
-extern void motor6623_write(void);
+extern void esc6623_read(void);
+extern void esc6623_write(void);
 
 #ifdef __cplusplus
 }

@@ -7,7 +7,7 @@
  * @file main.c
  *
  * @author zwh <zwh@raaworks.com>
- *         hc <450801089.qq.com>
+ *         hc <450801089@qq.com>
  *
  ***************************************************************************/
 
@@ -18,18 +18,19 @@
 
 #include "clock.h"
 #include "tim2.h"
-#include "can1.h"
-#include "can2.h"
+#include "can.h"
 #include "uart1.h"
 #include "uart6.h"
 #include "spi4.h"
 #include "spi5.h"
 #include "i2c_soft.h"
+#include "flash.h"
 
 #include "scheduler.h"
 
 #define TickClock   180     // MHz
 #define TickPeriod  50000   // us
+
 
 volatile uint64_t Tick;
 
@@ -66,8 +67,10 @@ int main()
 
     clock_config();
 
+    flash_read();
+
     // can1 -> wheel
-//    can1_config();
+    can1_config();
 
     // uart1 -> radio
     uart1_config();
@@ -75,20 +78,23 @@ int main()
     // uart6 -> radio
     uart6_config();
 
-    // spi4
-//    spi4_config();
+    // spi4 -> icm20600
+    spi4_config();
 
-    // spi5
-    spi5_config();
+    // spi5 -> mpu6500
+//    spi5_config();
 
-    // software i2c
+    // software i2c -> mpu6050
     i2c_soft_config();
 
     // tim2 -> 1ms timer config
     tim2_config();
 
     SysTick_Config(TickClock * TickPeriod);
+//    SysTick_Config(TickClock * 1000);
     HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+
+    debug_init();
 
     while (1) {
         scheduler();
@@ -104,6 +110,8 @@ int read(char *path, uint8_t *buf, int len)
             if (path[1] == 1) {
                 ret = uart1_read(buf, len);
             }
+            if (path[1] == 6) {
+            }
             break;
 
         case 'c':
@@ -115,6 +123,7 @@ int read(char *path, uint8_t *buf, int len)
         case 's':
             // spi bus
             ret = spi4_read(path[1], path[2], buf, len);
+//            ret = spi5_read(path[1], path[2], buf, len);
             break;
 
         case 'i':
@@ -136,6 +145,9 @@ int write(char *path, uint8_t *buf, int len)
         case 'u':
             if (path[1] == 1) {
             }
+            if (path[1] == 6) {
+//                ret = uart6_write(buf, len);
+            }
             break;
 
         case 'c':
@@ -146,6 +158,7 @@ int write(char *path, uint8_t *buf, int len)
 
         case 's':
             ret = spi4_write(path[1], path[2], buf, len);
+//            ret = spi5_write(path[1], path[2], buf, len);
             break;
 
         case 'i':

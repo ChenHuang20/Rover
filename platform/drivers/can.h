@@ -20,8 +20,11 @@ extern "C" {
 #endif
 
 extern void can1_config(void);
+extern void can2_config(void);
 extern int can1_read(uint8_t *buf, int len);
+extern int can2_read(uint8_t *buf, int len);
 extern int can1_write(uint8_t *buf, int len);
+extern int can2_write(uint8_t *buf, int len);
 
 #ifdef __cplusplus
 }

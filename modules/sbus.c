@@ -32,7 +32,14 @@ void sbus()
             _radio_raw.rc.ch1 = ((buf[1] >> 3 | (int16_t)buf[2] << 5) & 0x07FF) - 1024;
             _radio_raw.rc.ch2 = ((buf[2] >> 6 | (int16_t)buf[3] << 2 | (int16_t)buf[4] << 10) & 0x07FF) - 1024;
             _radio_raw.rc.ch3 = ((buf[4] >> 1 | (int16_t)buf[5] << 7) & 0x07FF) - 1024;
-
+            if(_radio_raw.rc.ch0 <= 11 && _radio_raw.rc.ch0 >= -11)
+                _radio_raw.rc.ch0 = 0;
+            if(_radio_raw.rc.ch1 <= 11 && _radio_raw.rc.ch1 >= -11)
+                _radio_raw.rc.ch1 = 0;
+            if(_radio_raw.rc.ch2 <= 11 && _radio_raw.rc.ch2 >= -11)
+                _radio_raw.rc.ch2 = 0;
+            if(_radio_raw.rc.ch3 <= 11 && _radio_raw.rc.ch3 >= -11)
+                _radio_raw.rc.ch3 = 0;
             _radio_raw.rc.s1 = ((buf[5] >> 4) & 0x000C) >> 2;
             _radio_raw.rc.s2 = ((buf[5] >> 4) & 0x0003);
 
@@ -46,11 +53,11 @@ void sbus()
             _radio_raw.key.v = buf[14] | buf[15] << 8;
 
             _radio.timestamp = time();
-            _radio.x = _radio_raw.rc.ch1 / 660.0f;
-            _radio.y = _radio_raw.rc.ch0 / 660.0f;
-            _radio.pitch = -_radio_raw.rc.ch3 / 660.0f;
+            _radio.y = _radio_raw.rc.ch1 / 660.0f;
+            _radio.x = _radio_raw.rc.ch0 / 660.0f;
+            _radio.pitch = _radio_raw.rc.ch3 / 660.0f;
             _radio.yaw = _radio_raw.rc.ch2 / 660.0f;
-            _radio.armed = _radio_raw.rc.s2;
+            _radio.mode = _radio_raw.rc.s2;
             _radio.shoot = _radio_raw.rc.s1;
         }
     }

@@ -36,7 +36,7 @@
 #endif
 
 // device path: bus(spi) / address(0x68) / register(0x00)
-static char path[3] = { 'i', 0x68, 0x00 };
+static char path[3] = { 's', 0x68, 0x00 };
 
 struct {
     const float accel_range_scale;
@@ -129,7 +129,7 @@ static void init()
         usleep(25000);              // from sleep mode to valid data 20ms
 
         // check chip id
-        if (read_reg_single(0x75) == 0x11) {
+        if (read_reg_single(0x75) == 0x70) {
             break;
         }
 

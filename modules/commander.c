@@ -7,7 +7,7 @@
  * @file commander.c
  *
  * @author zwh <zwh@raaworks.com>
- *         hc <450801089.qq.com>
+ *         hc <450801089@qq.com>
  *
  ***************************************************************************/
 
@@ -19,6 +19,7 @@
 
 #include "scheduler.h"
 #include "topics.h"
+#include "flash.h"
 //#include "led.h"
 //#include "adc.h"
 
@@ -160,7 +161,7 @@ static void calibrate()
                 _calibrate = 0;
 
                 // save parameters to flash
-//                flash_save();
+                flash_save();
             }
         }
     }
@@ -169,6 +170,10 @@ static void calibrate()
 static void commander()
 {
     uint64_t t = time();
+    
+    static uint64_t count = 0;
+    
+    count++;
 
     // calibration
     static uint64_t calibrate_timestamp = 0;
@@ -181,6 +186,9 @@ static void commander()
     } else {
         calibrate_timestamp = t;
     }
+
+//    if(count == 40)
+//        _calibrate = 1;
 
     calibrate();
 }
